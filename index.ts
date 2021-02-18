@@ -49,7 +49,7 @@ function filterTime(pull: Octokit.PullsListResponseItem,target: number):boolean{
 function setOutput(pull:Octokit.PullsListResponseItem[]){
     let output = ''
     for (const p of pull) {
-        output = output + p.head.ref + "\\n"
+        output = output + p.head.ref + " "
     }
     core.setOutput('pulls', output)
 }
