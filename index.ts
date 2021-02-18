@@ -3,6 +3,7 @@ import * as github from '@actions/github'
 import Octokit = require('@octokit/rest')
 
 const token: string = core.getInput('token')
+const base: string = core.getInput('base')
 const labels: string[] = JSON.parse(core.getInput('labels'))
 const skipSec: Number = parseInt(core.getInput('skip_hour')) * 60 * 60
 const repoOwner: string = github.context.repo.owner
@@ -13,6 +14,7 @@ function pullRequests(repoOwner:string, repo:string ):Promise<Octokit.Response<O
     let resp = pr.pulls.list({
         owner: repoOwner,
         repo: repo,
+        base: base,
     }).catch(
         e => {
             console.log(e.message)
@@ -47,9 +49,8 @@ function filterTime(pull: Octokit.PullsListResponseItem,target: number):boolean{
 function setOutput(pull:Octokit.PullsListResponseItem[]){
     let output = ''
     for (const p of pull) {
-        output = output + p.title + "\\n" + p.html_url + "\\n---\\n"
+        output = output + p.head.ref + "\\n"
     }
-    output = output.slice(0,-7) //最後の"\\n---\\n"を削除
     core.setOutput('pulls', output)
 }
 

@@ -43,6 +43,7 @@ jobs:
           token: ${{secrets.GITHUB_TOKEN}}
           labels: '["WFR"]'
           hour: '24'
+          base: master
       - name: output
         run: echo '${{ steps.list.outputs.pulls }}'
 ```
