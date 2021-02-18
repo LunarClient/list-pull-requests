@@ -16,6 +16,10 @@ inputs:
     description: 'Pull requests within this hour will not be listed'
     required: true
     default: '24'
+  base:
+    description: 'Base branch to filter PRs for'
+    required: true
+    default: master
 outputs:
   result:
     description: 'pull request string'
