@@ -17,7 +17,7 @@ function pullRequests(repoOwner:string, repo:string ):Promise<Octokit.Response<O
         state: open,
     }).catch(
         e => {
-            core.info(e.message)
+            core.debug("::debug::" + e.message)
         }
     ) as Promise<Octokit.Response<Octokit.PullsListResponse>>
     return resp
@@ -27,9 +27,9 @@ function filterLabel(labels: Octokit.PullsListResponseItemLabelsItem[],target: s
     let labelNames = labels.map((label) => {
         return label.name
     })
-    core.info("Found PR with label names: " + labelNames)
+    core.debug("::debug::" + "Found PR with label names: " + labelNames)
     
-    for (let label in target) {
+    for (const label of target) {
         if (!labelNames.includes(label)) {
             return false;
         }
@@ -42,7 +42,7 @@ function setOutput(pull:Octokit.PullsListResponseItem[]){
     for (const p of pull) {
         output = output + p.head.ref + " "
     }
-    core.info("Found PRs: " + output)
+    core.debug("::debug::" + "Found PRs: " + output)
     core.setOutput('pulls', output)
 }
 
